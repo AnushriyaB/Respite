@@ -10,6 +10,7 @@ const Respite = () => {
   const [isMuted, setIsMuted] = useState(true);
   const [restTime, setRestTime] = useState(0);
   const [isZoneExpanded, setIsZoneExpanded] = useState(false);
+  const [hoveredButton, setHoveredButton] = useState(false);
   const audioRef = useRef(null);
 
   const restStyles = [
@@ -21,7 +22,7 @@ const Respite = () => {
       shadowColor: "rgba(99, 102, 241, 0.5)",
       message: "Finding peace in stillness 😌",
       soundDescription: "Gentle white noise with soft chimes",
-      audioFile: "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/dream-space.mp3" // Update this path
+      audioFile: "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/dream-space.mp3"
     },
     {
       name: "Café Corner",
@@ -64,7 +65,7 @@ const Respite = () => {
       audioFile: "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/nature-nook.mp3"
     }
   ];
-  
+
   const getFormattedTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
@@ -130,6 +131,22 @@ const Respite = () => {
       className={`min-h-screen transition-colors duration-1000 relative overflow-hidden flex flex-col items-center justify-center ${restStyles[currentStyle].bgColor}`}
       style={{ cursor: 'none' }}
     >
+      {/* Anushriya Button */}
+      <motion.a
+        href="https://anushriyabhardwaj.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute top-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-full shadow-lg transition-all hover:bg-gray-700 z-40"
+        onMouseEnter={() => setHoveredButton(true)}
+        onMouseLeave={() => setHoveredButton(false)}
+        style={{
+          backgroundColor: restStyles[currentStyle].shadowColor,
+          color: "#fff"
+        }}
+      >
+        {hoveredButton ? "Know about Anushriya ↗️" : "Anushriya 👩🏻‍💻"}
+      </motion.a>
+
       {/* Background Overlay */}
       {isZoneExpanded && (
         <motion.div
@@ -286,12 +303,12 @@ const Respite = () => {
           filter: isResting ? "none" : "saturate(0) brightness(2)"
         }}
         animate={{
-          scale: isResting ? [1, 6, 1] : [1, 1.1],
+          scale: isResting ? [1, 0.8, 0.6] : [1, 1.1],
           opacity: isResting ? [1, 0.8] : 1,
           backgroundPosition: isResting ? "50% 50%" : ["0% 0%", "100% 100%"],
         }}
         transition={{
-          duration: isResting ? 8 : 1,
+          duration: isResting ? 10 : 1,
           ease: "easeInOut",
           repeat: isResting ? Infinity : 0
         }}
