@@ -1,9 +1,3 @@
-import dreamSpace from '../assets/audio/dream-space.mp3';
-import cafeCorner from '../assets/audio/cafe-corner.mp3';
-import studySanctuary from '../assets/audio/study-sanctuary.mp3';
-import melodyMaven from '../assets/audio/melody-maven.mp3';
-import natureNook from '../assets/audio/nature-nook.mp3';
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Moon, Coffee, Book, Music, Heart, VolumeX, Volume2 } from 'lucide-react';
@@ -27,7 +21,7 @@ const Respite = () => {
       shadowColor: "rgba(99, 102, 241, 0.5)",
       message: "Finding peace in stillness 😌",
       soundDescription: "Gentle white noise with soft chimes",
-      audioFile: dreamSpace
+      audioFile: "/src/assets/audio/dream-space.mp3"
     },
     {
       name: "Café Corner",
@@ -37,7 +31,7 @@ const Respite = () => {
       shadowColor: "rgba(251, 191, 36, 0.5)",
       message: "Coffee break time ☕",
       soundDescription: "Cozy café ambiance",
-      audioFile: cafeCorner
+      audioFile: "/src/assets/audio/cafe-corner.mp3"
     },
     {
       name: "Study Sanctuary",
@@ -47,7 +41,7 @@ const Respite = () => {
       shadowColor: "rgba(16, 185, 129, 0.5)",
       message: "Focus mode activated 📚",
       soundDescription: "Soft lo-fi beats",
-      audioFile: studySanctuary
+      audioFile: "/src/assets/audio/study-sanctuary.mp3"
     },
     {
       name: "Melody Maven",
@@ -57,7 +51,7 @@ const Respite = () => {
       shadowColor: "rgba(192, 132, 252, 0.5)",
       message: "Vibing to the rhythm 🎵",
       soundDescription: "Calming piano melodies",
-      audioFile: melodyMaven
+      audioFile: "/src/assets/audio/melody-maven.mp3"
     },
     {
       name: "Nature Nook",
@@ -67,9 +61,10 @@ const Respite = () => {
       shadowColor: "rgba(16, 185, 129, 0.5)",
       message: "Connected with nature 🌿",
       soundDescription: "Peaceful forest sounds",
-      audioFile: natureNook
+      audioFile: "/src/assets/audio/nature-nook.mp3"
     }
-  ]; 
+  ];
+  
 
   const getFormattedTime = (time) => {
     const minutes = Math.floor(time / 60);
@@ -112,12 +107,13 @@ const Respite = () => {
         const audioInstance = new Audio(restStyles[currentStyle].audioFile);
         audioInstance.loop = true;
         audioInstance.play();
-        setAudio(audioInstance); // Store the audio instance so we can stop it later
+        setAudio(audioInstance); // Store the audio instance for future control
       } catch (error) {
         console.error("Audio file could not be played: ", error);
       }
     }
-  };  
+  };
+  
   
 
   useEffect(() => {
