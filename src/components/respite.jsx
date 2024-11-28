@@ -69,7 +69,7 @@ const Respite = () => {
       soundDescription: "Peaceful forest sounds",
       audioFile: natureNook
     }
-  ];
+  ]; 
 
   const getFormattedTime = (time) => {
     const minutes = Math.floor(time / 60);
@@ -109,25 +109,32 @@ const Respite = () => {
   const playAudio = () => {
     if (!isMuted && restStyles[currentStyle].audioFile) {
       try {
-        const audio = new Audio(require(`../assets/audio/${restStyles[currentStyle].audioFile}`));
-        audio.loop = true;
-        audio.play();
+        const audioInstance = new Audio(restStyles[currentStyle].audioFile);
+        audioInstance.loop = true;
+        audioInstance.play();
+        setAudio(audioInstance); // Store the audio instance so we can stop it later
       } catch (error) {
         console.error("Audio file could not be played: ", error);
       }
     }
-  };
+  };  
   
 
   useEffect(() => {
-    playAudio();
-    // Clean up audio when component unmounts or audio changes
+    if (isResting) {
+      playAudio();
+    } else if (audio) {
+      audio.pause();
+      setAudio(null); // Clear the audio instance
+    }
+  
     return () => {
       if (audio) {
         audio.pause();
       }
     };
   }, [isResting, currentStyle, isMuted]);
+  
 
   return (
     <div
