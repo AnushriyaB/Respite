@@ -298,7 +298,7 @@ const Respite = () => {
           left: mousePosition.x - 24,
           background: isResting
             ? `radial-gradient(circle, ${restStyles[currentStyle].shadowColor} 100%, ${restStyles[currentStyle].bgColor} 0%)`
-            : `linear-gradient(135deg, #F2B1A9, #FFC58F, #FFE2C1)`,
+            : `linear-gradient(135deg, #9EBCD9, #A3D9B5, #E3C8E5)`,
           backgroundSize: isResting ? "100% 100%" : "200% 200%",
           boxShadow: isResting
             ? `0 0 10px 4px ${restStyles[currentStyle].shadowColor}`
