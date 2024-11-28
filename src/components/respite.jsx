@@ -101,17 +101,17 @@ const Respite = () => {
   }, [isResting]);
 
   const playAudio = () => {
-    if (audio) {
-      audio.pause(); // Stop the previous audio
-    }
-
     if (!isMuted && restStyles[currentStyle].audioFile) {
-      const newAudio = new Audio(require(`../assets/audio/${restStyles[currentStyle].audioFile}`));
-      newAudio.loop = true;
-      newAudio.play();
-      setAudio(newAudio);
+      try {
+        const audio = new Audio(`${process.env.PUBLIC_URL}/assets/${restStyles[currentStyle].audioFile}`);
+        audio.loop = true;
+        audio.play();
+      } catch (error) {
+        console.error("Audio file could not be played: ", error);
+      }
     }
   };
+  
 
   useEffect(() => {
     playAudio();
@@ -174,23 +174,24 @@ const Respite = () => {
 
       {/* Rest Area */}
       <motion.div
-        className={`relative flex flex-col items-center transition-all z-20`}
-        animate={{
-          width: isZoneExpanded ? '80vw' : '20rem',
-          height: isZoneExpanded ? '80vh' : '20rem'
-        }}
-        transition={{
-          duration: 1.5,
-          ease: 'easeInOut'
-        }}
-        style={{
-          transition: 'transform 1.8s ease-in-out',
-          transformOrigin: 'center',
-          boxShadow: `0 10px 30px ${restStyles[currentStyle].shadowColor}` // Softened shadow for each theme
-        }}
-        onMouseEnter={() => setIsResting(true)}
-        onMouseLeave={() => setIsResting(false)}
-      >
+  className={`relative flex flex-col items-center transition-all z-20 rounded-xl`}
+  animate={{
+    width: isZoneExpanded ? '80vw' : '20rem',
+    height: isZoneExpanded ? '80vh' : '20rem'
+  }}
+  transition={{
+    duration: 1.5,
+    ease: 'easeInOut'
+  }}
+  style={{
+    transition: 'transform 1.8s ease-in-out',
+    transformOrigin: 'center',
+    boxShadow: `0 10px 30px ${restStyles[currentStyle].shadowColor}` // Softened shadow for each theme
+  }}
+  onMouseEnter={() => setIsResting(true)}
+  onMouseLeave={() => setIsResting(false)}
+>
+
         <motion.div
           className={`rounded-xl ${restStyles[currentStyle].bgColor} flex items-center justify-center shadow-lg relative overflow-hidden`}
           style={{
