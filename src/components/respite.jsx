@@ -1,3 +1,9 @@
+import dreamSpace from '../assets/audio/dream-space.mp3';
+import cafeCorner from '../assets/audio/cafe-corner.mp3';
+import studySanctuary from '../assets/audio/study-sanctuary.mp3';
+import melodyMaven from '../assets/audio/melody-maven.mp3';
+import natureNook from '../assets/audio/nature-nook.mp3';
+
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Moon, Coffee, Book, Music, Heart, VolumeX, Volume2 } from 'lucide-react';
@@ -21,7 +27,7 @@ const Respite = () => {
       shadowColor: "rgba(99, 102, 241, 0.5)",
       message: "Finding peace in stillness 😌",
       soundDescription: "Gentle white noise with soft chimes",
-      audioFile: "dream-space.mp3"
+      audioFile: dreamSpace
     },
     {
       name: "Café Corner",
@@ -31,7 +37,7 @@ const Respite = () => {
       shadowColor: "rgba(251, 191, 36, 0.5)",
       message: "Coffee break time ☕",
       soundDescription: "Cozy café ambiance",
-      audioFile: "cafe-corner.mp3"
+      audioFile: cafeCorner
     },
     {
       name: "Study Sanctuary",
@@ -41,7 +47,7 @@ const Respite = () => {
       shadowColor: "rgba(16, 185, 129, 0.5)",
       message: "Focus mode activated 📚",
       soundDescription: "Soft lo-fi beats",
-      audioFile: "study-sanctuary.mp3"
+      audioFile: studySanctuary
     },
     {
       name: "Melody Maven",
@@ -51,7 +57,7 @@ const Respite = () => {
       shadowColor: "rgba(192, 132, 252, 0.5)",
       message: "Vibing to the rhythm 🎵",
       soundDescription: "Calming piano melodies",
-      audioFile: "melody-maven.mp3"
+      audioFile: melodyMaven
     },
     {
       name: "Nature Nook",
@@ -61,7 +67,7 @@ const Respite = () => {
       shadowColor: "rgba(16, 185, 129, 0.5)",
       message: "Connected with nature 🌿",
       soundDescription: "Peaceful forest sounds",
-      audioFile: "nature-nook.mp3"
+      audioFile: natureNook
     }
   ];
 
@@ -103,7 +109,7 @@ const Respite = () => {
   const playAudio = () => {
     if (!isMuted && restStyles[currentStyle].audioFile) {
       try {
-        const audio = new Audio(`${process.env.PUBLIC_URL}/assets/${restStyles[currentStyle].audioFile}`);
+        const audio = new Audio(require(`../assets/audio/${restStyles[currentStyle].audioFile}`));
         audio.loop = true;
         audio.play();
       } catch (error) {
