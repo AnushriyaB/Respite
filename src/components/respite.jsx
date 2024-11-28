@@ -286,12 +286,12 @@ const Respite = () => {
           filter: isResting ? "none" : "saturate(0) brightness(2)"
         }}
         animate={{
-          scale: isResting ? [1, 8, 1] : [1, 1.1],
+          scale: isResting ? [1, 6, 1] : [1, 1.1],
           opacity: isResting ? [1, 0.8] : 1,
           backgroundPosition: isResting ? "50% 50%" : ["0% 0%", "100% 100%"],
         }}
         transition={{
-          duration: isResting ? 6 : 1,
+          duration: isResting ? 8 : 1,
           ease: "easeInOut",
           repeat: isResting ? Infinity : 0
         }}
