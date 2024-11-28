@@ -21,7 +21,7 @@ const Respite = () => {
       shadowColor: "rgba(99, 102, 241, 0.5)",
       message: "Finding peace in stillness 😌",
       soundDescription: "Gentle white noise with soft chimes",
-      audioFile: "src/assets/audio/cafe-corner.mp3" // Update this path
+      audioFile: "https://github.com/AnushriyaB/Respite/blob/main/public/audio/dream-space.mp3" // Update this path
     },
     {
       name: "Café Corner",
@@ -31,7 +31,7 @@ const Respite = () => {
       shadowColor: "rgba(251, 191, 36, 0.5)",
       message: "Coffee break time ☕",
       soundDescription: "Cozy café ambiance",
-      audioFile: "src/assets/audio/dream-space.mp3"
+      audioFile: "https://github.com/AnushriyaB/Respite/blob/main/public/audio/cafe-corner.mp3"
     },
     {
       name: "Study Sanctuary",
@@ -41,7 +41,7 @@ const Respite = () => {
       shadowColor: "rgba(16, 185, 129, 0.5)",
       message: "Focus mode activated 📚",
       soundDescription: "Soft lo-fi beats",
-      audioFile: "src/assets/audio/melody-maven.mp3"
+      audioFile: "https://github.com/AnushriyaB/Respite/blob/main/public/audio/study-sanctuary.mp3"
     },
     {
       name: "Melody Maven",
@@ -51,7 +51,7 @@ const Respite = () => {
       shadowColor: "rgba(192, 132, 252, 0.5)",
       message: "Vibing to the rhythm 🎵",
       soundDescription: "Calming piano melodies",
-      audioFile: "src/assets/audio/nature-nook.mp3"
+      audioFile: "https://github.com/AnushriyaB/Respite/blob/main/public/audio/melody-maven.mp3"
     },
     {
       name: "Nature Nook",
@@ -61,7 +61,7 @@ const Respite = () => {
       shadowColor: "rgba(16, 185, 129, 0.5)",
       message: "Connected with nature 🌿",
       soundDescription: "Peaceful forest sounds",
-      audioFile: "src/assets/audio/study-sanctuary.mp3"
+      audioFile: "https://github.com/AnushriyaB/Respite/blob/main/public/audio/nature-nook.mp3"
     }
   ];
   
@@ -105,12 +105,22 @@ const Respite = () => {
   const playAudio = () => {
     if (!isMuted && restStyles[currentStyle].audioFile) {
       try {
+        if (audio) {
+          audio.pause();
+        }
         const audioInstance = new Audio(restStyles[currentStyle].audioFile);
         audioInstance.loop = true;
-        audioInstance.play();
-        setAudio(audioInstance); // Store the audio instance to pause or stop it later
+        audioInstance.volume = 0.5; // Set a reasonable volume
+        audioInstance.addEventListener('canplaythrough', () => {
+          audioInstance.play().catch(error => {
+            console.log("Audio playback failed:", error);
+            setIsMuted(true);
+          });
+        });
+        setAudio(audioInstance);
       } catch (error) {
-        console.error("Audio file could not be played: ", error);
+        console.error("Audio file could not be loaded:", error);
+        setIsMuted(true);
       }
     }
   };
