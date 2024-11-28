@@ -10,6 +10,7 @@ const Respite = () => {
   const [isMuted, setIsMuted] = useState(true);
   const [restTime, setRestTime] = useState(0);
   const [isZoneExpanded, setIsZoneExpanded] = useState(false);
+  const [audio, setAudio] = useState(null);
 
   const restStyles = [
     {
@@ -17,6 +18,7 @@ const Respite = () => {
       icon: <Moon className="w-6 h-6" />,
       bgColor: "bg-indigo-100",
       activeColor: "bg-indigo-100",
+      shadowColor: "rgba(99, 102, 241, 0.5)",
       message: "Finding peace in stillness 😌",
       soundDescription: "Gentle white noise with soft chimes",
       audioFile: "dream-space.mp3"
@@ -26,32 +28,40 @@ const Respite = () => {
       icon: <Coffee className="w-6 h-6" />,
       bgColor: "bg-amber-100",
       activeColor: "bg-amber-100",
+      shadowColor: "rgba(251, 191, 36, 0.5)",
       message: "Coffee break time ☕",
-      soundDescription: "Cozy café ambiance"
+      soundDescription: "Cozy café ambiance",
+      audioFile: "cafe-corner.mp3"
     },
     {
       name: "Study Sanctuary",
       icon: <Book className="w-6 h-6" />,
       bgColor: "bg-green-100",
       activeColor: "bg-green-100",
+      shadowColor: "rgba(16, 185, 129, 0.5)",
       message: "Focus mode activated 📚",
-      soundDescription: "Soft lo-fi beats"
+      soundDescription: "Soft lo-fi beats",
+      audioFile: "study-sanctuary.mp3"
     },
     {
       name: "Melody Maven",
       icon: <Music className="w-6 h-6" />,
       bgColor: "bg-purple-100",
       activeColor: "bg-purple-100",
+      shadowColor: "rgba(192, 132, 252, 0.5)",
       message: "Vibing to the rhythm 🎵",
-      soundDescription: "Calming piano melodies"
+      soundDescription: "Calming piano melodies",
+      audioFile: "melody-maven.mp3"
     },
     {
       name: "Nature Nook",
       icon: <Heart className="w-6 h-6" />,
       bgColor: "bg-emerald-100",
       activeColor: "bg-emerald-100",
+      shadowColor: "rgba(16, 185, 129, 0.5)",
       message: "Connected with nature 🌿",
-      soundDescription: "Peaceful forest sounds"
+      soundDescription: "Peaceful forest sounds",
+      audioFile: "nature-nook.mp3"
     }
   ];
 
@@ -91,21 +101,26 @@ const Respite = () => {
   }, [isResting]);
 
   const playAudio = () => {
+    if (audio) {
+      audio.pause(); // Stop the previous audio
+    }
+
     if (!isMuted && restStyles[currentStyle].audioFile) {
-      try {
-        const audio = new Audio(require(`../assets/${restStyles[currentStyle].audioFile}`));
-        audio.loop = true;
-        audio.play();
-      } catch (error) {
-        console.error("Audio file could not be played: ", error);
-      }
+      const newAudio = new Audio(require(`../assets/audio/${restStyles[currentStyle].audioFile}`));
+      newAudio.loop = true;
+      newAudio.play();
+      setAudio(newAudio);
     }
   };
 
   useEffect(() => {
-    if (isResting) {
-      playAudio();
-    }
+    playAudio();
+    // Clean up audio when component unmounts or audio changes
+    return () => {
+      if (audio) {
+        audio.pause();
+      }
+    };
   }, [isResting, currentStyle, isMuted]);
 
   return (
@@ -207,7 +222,7 @@ const Respite = () => {
                 ease: 'easeInOut'
               }}
             >
-               <div className="text-[18px] font-normal tracking-wide uppercase opacity-70 mt-2 font-['Inter'] text-gray-60 whitespace-nowrap">
+              <div className="text-[18px] font-normal tracking-wide uppercase opacity-70 mt-2 font-['Inter'] text-gray-60 whitespace-nowrap">
                 {getFormattedTime(restTime)}
               </div>
               <div className="text-[16px] font-normal tracking-wide uppercase opacity-70 mt-2 font-['Inter'] text-gray-600 whitespace-nowrap">
@@ -253,34 +268,32 @@ const Respite = () => {
         </AnimatePresence>
       </motion.div>
 
-
       {/* Custom Cursor */}
-<motion.div
-  className={`fixed w-8 h-8 pointer-events-none rounded-full z-50`}
-  style={{
-    top: mousePosition.y - 24,
-    left: mousePosition.x - 24,
-    background: isResting
-      ? `radial-gradient(circle, ${restStyles[currentStyle].shadowColor} 100%, ${restStyles[currentStyle].bgColor} 0%)` // Saturated gradient when resting
-      : `linear-gradient(135deg, #ff6ec4, #7873f5, #42e695)`, // Colorful gradient for shining effect
-    backgroundSize: isResting ? "100% 100%" : "200% 200%", // Moving gradient when outside rest zone
-    boxShadow: isResting
-      ? `0 0 10px 4px ${restStyles[currentStyle].shadowColor}` // Soft, saturated glow when resting
-      : `0 0 30px 10px ${restStyles[currentStyle].shadowColor}`, // Brighter glowing effect when active
-    filter: isResting ? "none" : "saturate(0) brightness(2)" // Saturate and brighten for shining orb when outside
-  }}
-  animate={{
-    scale: isResting ? [1, 10, 1] : [1, 1.1], // Slightly shrink when resting
-    opacity: isResting ? [1, 0.8] : 1,
-    backgroundPosition: isResting ? "50% 50%" : ["0% 0%", "100% 100%"], // Move gradient when active
-  }}
-  transition={{
-    duration: isResting ? 10 : 1,
-    ease: "easeInOut",
-    repeat: isResting ? Infinity : 0
-  }}
-/>
-
+      <motion.div
+        className={`fixed w-8 h-8 pointer-events-none rounded-full z-50`}
+        style={{
+          top: mousePosition.y - 24,
+          left: mousePosition.x - 24,
+          background: isResting
+            ? `radial-gradient(circle, ${restStyles[currentStyle].shadowColor} 100%, ${restStyles[currentStyle].bgColor} 0%)`
+            : `linear-gradient(135deg, #ff6ec4, #7873f5, #42e695)`,
+          backgroundSize: isResting ? "100% 100%" : "200% 200%",
+          boxShadow: isResting
+            ? `0 0 10px 4px ${restStyles[currentStyle].shadowColor}`
+            : `0 0 30px 10px ${restStyles[currentStyle].shadowColor}`,
+          filter: isResting ? "none" : "saturate(0) brightness(2)"
+        }}
+        animate={{
+          scale: isResting ? [1, 0.8, 0.6] : [1, 1.1],
+          opacity: isResting ? [1, 0.8] : 1,
+          backgroundPosition: isResting ? "50% 50%" : ["0% 0%", "100% 100%"],
+        }}
+        transition={{
+          duration: isResting ? 10 : 1,
+          ease: "easeInOut",
+          repeat: isResting ? Infinity : 0
+        }}
+      />
     </div>
   );
 };
