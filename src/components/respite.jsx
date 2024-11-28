@@ -133,19 +133,22 @@ const Respite = () => {
     >
       {/* Anushriya Button */}
       <motion.a
-        href="https://anushriyabhardwaj.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="absolute top-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-full shadow-lg transition-all hover:bg-gray-700 z-40"
-        onMouseEnter={() => setHoveredButton(true)}
-        onMouseLeave={() => setHoveredButton(false)}
-        style={{
-          backgroundColor: restStyles[currentStyle].shadowColor,
-          color: "#fff"
-        }}
-      >
-        {hoveredButton ? "Know about Anushriya ↗️" : "Anushriya 👩🏻‍💻"}
-      </motion.a>
+  href="https://anushriyabhardwaj.com"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="absolute top-4 right-4 px-4 py-2 rounded-full shadow-lg transition-all z-40"
+  onMouseEnter={() => setHoveredButton(true)}
+  onMouseLeave={() => setHoveredButton(false)}
+  style={{
+    backgroundColor: restStyles[currentStyle].shadowColor,
+    color: "#fff",
+    transform: hoveredButton ? 'scale(1.05)' : 'scale(1)',
+    transition: 'transform 0.4s ease-in-out, background-color 0.4s ease-in-out',
+  }}
+>
+  {hoveredButton ? "Know about Anushriya ↗️" : "Anushriya 👩🏻‍💻"}
+</motion.a>
+
 
       {/* Background Overlay */}
       {isZoneExpanded && (
@@ -295,7 +298,7 @@ const Respite = () => {
           left: mousePosition.x - 24,
           background: isResting
             ? `radial-gradient(circle, ${restStyles[currentStyle].shadowColor} 100%, ${restStyles[currentStyle].bgColor} 0%)`
-            : `linear-gradient(135deg, #ff6ec4, #7873f5, #42e695)`,
+            : `linear-gradient(135deg, #F2B1A9, #FFC58F, #FFE2C1)`,
           backgroundSize: isResting ? "100% 100%" : "200% 200%",
           boxShadow: isResting
             ? `0 0 10px 4px ${restStyles[currentStyle].shadowColor}`
@@ -303,12 +306,12 @@ const Respite = () => {
           filter: isResting ? "none" : "saturate(0) brightness(2)"
         }}
         animate={{
-          scale: isResting ? [1, 0.8, 0.6] : [1, 1.1],
+          scale: isResting ? [1, 6, 1] : [1, 1.1],
           opacity: isResting ? [1, 0.8] : 1,
           backgroundPosition: isResting ? "50% 50%" : ["0% 0%", "100% 100%"],
         }}
         transition={{
-          duration: isResting ? 10 : 1,
+          duration: isResting ? 8 : 1,
           ease: "easeInOut",
           repeat: isResting ? Infinity : 0
         }}
