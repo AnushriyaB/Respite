@@ -21,7 +21,7 @@ const Respite = () => {
       shadowColor: "rgba(99, 102, 241, 0.5)",
       message: "Finding peace in stillness 😌",
       soundDescription: "Gentle white noise with soft chimes",
-      audioFile: "/src/assets/audio/dream-space.mp3"
+      audioFile: "src/assets/audio/cafe-corner.mp3" // Update this path
     },
     {
       name: "Café Corner",
@@ -31,7 +31,7 @@ const Respite = () => {
       shadowColor: "rgba(251, 191, 36, 0.5)",
       message: "Coffee break time ☕",
       soundDescription: "Cozy café ambiance",
-      audioFile: "/src/assets/audio/cafe-corner.mp3"
+      audioFile: "src/assets/audio/dream-space.mp3"
     },
     {
       name: "Study Sanctuary",
@@ -41,7 +41,7 @@ const Respite = () => {
       shadowColor: "rgba(16, 185, 129, 0.5)",
       message: "Focus mode activated 📚",
       soundDescription: "Soft lo-fi beats",
-      audioFile: "/src/assets/audio/study-sanctuary.mp3"
+      audioFile: "src/assets/audio/melody-maven.mp3"
     },
     {
       name: "Melody Maven",
@@ -51,7 +51,7 @@ const Respite = () => {
       shadowColor: "rgba(192, 132, 252, 0.5)",
       message: "Vibing to the rhythm 🎵",
       soundDescription: "Calming piano melodies",
-      audioFile: "/src/assets/audio/melody-maven.mp3"
+      audioFile: "src/assets/audio/nature-nook.mp3"
     },
     {
       name: "Nature Nook",
@@ -61,9 +61,10 @@ const Respite = () => {
       shadowColor: "rgba(16, 185, 129, 0.5)",
       message: "Connected with nature 🌿",
       soundDescription: "Peaceful forest sounds",
-      audioFile: "/src/assets/audio/nature-nook.mp3"
+      audioFile: "src/assets/audio/study-sanctuary.mp3"
     }
   ];
+  
   
 
   const getFormattedTime = (time) => {
@@ -107,13 +108,12 @@ const Respite = () => {
         const audioInstance = new Audio(restStyles[currentStyle].audioFile);
         audioInstance.loop = true;
         audioInstance.play();
-        setAudio(audioInstance); // Store the audio instance for future control
+        setAudio(audioInstance); // Store the audio instance to pause or stop it later
       } catch (error) {
         console.error("Audio file could not be played: ", error);
       }
     }
   };
-  
   
 
   useEffect(() => {
