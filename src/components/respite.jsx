@@ -21,7 +21,7 @@ const Respite = () => {
       shadowColor: "rgba(99, 102, 241, 0.5)",
       message: "Finding peace in stillness 😌",
       soundDescription: "Gentle white noise with soft chimes",
-      audioFile: "https://github.com/AnushriyaB/Respite/blob/main/public/audio/dream-space.mp3" // Update this path
+      audioFile: "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/dream-space.mp3" // Update this path
     },
     {
       name: "Café Corner",
@@ -31,7 +31,7 @@ const Respite = () => {
       shadowColor: "rgba(251, 191, 36, 0.5)",
       message: "Coffee break time ☕",
       soundDescription: "Cozy café ambiance",
-      audioFile: "https://github.com/AnushriyaB/Respite/blob/main/public/audio/cafe-corner.mp3"
+      audioFile: "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/cafe-corner.mp3"
     },
     {
       name: "Study Sanctuary",
@@ -41,7 +41,7 @@ const Respite = () => {
       shadowColor: "rgba(16, 185, 129, 0.5)",
       message: "Focus mode activated 📚",
       soundDescription: "Soft lo-fi beats",
-      audioFile: "https://github.com/AnushriyaB/Respite/blob/main/public/audio/study-sanctuary.mp3"
+      audioFile: "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/study-sanctuary.mp3"
     },
     {
       name: "Melody Maven",
@@ -51,7 +51,7 @@ const Respite = () => {
       shadowColor: "rgba(192, 132, 252, 0.5)",
       message: "Vibing to the rhythm 🎵",
       soundDescription: "Calming piano melodies",
-      audioFile: "https://github.com/AnushriyaB/Respite/blob/main/public/audio/melody-maven.mp3"
+      audioFile: "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/melody-maven.mp3"
     },
     {
       name: "Nature Nook",
@@ -61,7 +61,7 @@ const Respite = () => {
       shadowColor: "rgba(16, 185, 129, 0.5)",
       message: "Connected with nature 🌿",
       soundDescription: "Peaceful forest sounds",
-      audioFile: "https://github.com/AnushriyaB/Respite/blob/main/public/audio/nature-nook.mp3"
+      audioFile: "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/nature-nook.mp3"
     }
   ];
   
