@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Moon, Coffee, Book, Music, Heart, VolumeX, Volume2 } from 'lucide-react';
 import "../index.css";
@@ -10,7 +10,7 @@ const Respite = () => {
   const [isMuted, setIsMuted] = useState(true);
   const [restTime, setRestTime] = useState(0);
   const [isZoneExpanded, setIsZoneExpanded] = useState(false);
-  const [audio, setAudio] = useState(null);
+  const audioRef = useRef(null);
 
   const restStyles = [
     {
@@ -65,8 +65,6 @@ const Respite = () => {
     }
   ];
   
-  
-
   const getFormattedTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
@@ -102,45 +100,30 @@ const Respite = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [isResting]);
 
-  const playAudio = () => {
-    if (!isMuted && restStyles[currentStyle].audioFile) {
-      try {
-        if (audio) {
-          audio.pause();
-        }
-        const audioInstance = new Audio(restStyles[currentStyle].audioFile);
-        audioInstance.loop = true;
-        audioInstance.volume = 0.5; // Set a reasonable volume
-        audioInstance.addEventListener('canplaythrough', () => {
-          audioInstance.play().catch(error => {
-            console.log("Audio playback failed:", error);
-            setIsMuted(true);
-          });
-        });
-        setAudio(audioInstance);
-      } catch (error) {
-        console.error("Audio file could not be loaded:", error);
-        setIsMuted(true);
-      }
-    }
-  };
-  
-
   useEffect(() => {
-    if (isResting) {
-      playAudio();
-    } else if (audio) {
-      audio.pause();
-      setAudio(null); // Clear the audio instance
+    if (isResting && !isMuted) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      const audioInstance = new Audio(restStyles[currentStyle].audioFile);
+      audioInstance.loop = true;
+      audioInstance.volume = 0.5;
+      audioInstance.play().catch((error) => console.log("Audio playback failed:", error));
+      audioRef.current = audioInstance;
+    } else if (audioRef.current) {
+      audioRef.current.pause();
     }
-  
+
     return () => {
-      if (audio) {
-        audio.pause();
+      if (audioRef.current) {
+        audioRef.current.pause();
       }
     };
   }, [isResting, currentStyle, isMuted]);
-  
+
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+  };
 
   return (
     <div
@@ -193,24 +176,23 @@ const Respite = () => {
 
       {/* Rest Area */}
       <motion.div
-  className={`relative flex flex-col items-center transition-all z-20 rounded-xl`}
-  animate={{
-    width: isZoneExpanded ? '80vw' : '20rem',
-    height: isZoneExpanded ? '80vh' : '20rem'
-  }}
-  transition={{
-    duration: 1.5,
-    ease: 'easeInOut'
-  }}
-  style={{
-    transition: 'transform 1.8s ease-in-out',
-    transformOrigin: 'center',
-    boxShadow: `0 10px 30px ${restStyles[currentStyle].shadowColor}` // Softened shadow for each theme
-  }}
-  onMouseEnter={() => setIsResting(true)}
-  onMouseLeave={() => setIsResting(false)}
->
-
+        className={`relative flex flex-col items-center transition-all z-20 rounded-xl`}
+        animate={{
+          width: isZoneExpanded ? '80vw' : '20rem',
+          height: isZoneExpanded ? '80vh' : '20rem'
+        }}
+        transition={{
+          duration: 1.5,
+          ease: 'easeInOut'
+        }}
+        style={{
+          transition: 'transform 1.8s ease-in-out',
+          transformOrigin: 'center',
+          boxShadow: `0 10px 30px ${restStyles[currentStyle].shadowColor}`
+        }}
+        onMouseEnter={() => setIsResting(true)}
+        onMouseLeave={() => setIsResting(false)}
+      >
         <motion.div
           className={`rounded-xl ${restStyles[currentStyle].bgColor} flex items-center justify-center shadow-lg relative overflow-hidden`}
           style={{
@@ -263,7 +245,7 @@ const Respite = () => {
           className="p-4 bg-white/80 backdrop-blur rounded-full shadow-lg hover:shadow-xl transition-all"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => setIsMuted(!isMuted)}
+          onClick={toggleMute}
         >
           {isMuted ? (
             <VolumeX className="w-6 h-6 text-gray-600" />
