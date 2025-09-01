@@ -191,15 +191,14 @@ const Respite = () => {
             respite modes.
           </p>
           <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Inter'] text-gray-600 leading-relaxed">
-            Move your cursor inside the big box to start your break. Turn on
-            music if you'd like some calming sounds.
+            Move your cursor inside the big box to start your break.
+          </p>
+           <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Inter'] text-gray-600 leading-relaxed">
+            Turn on music if you'd like some calming sounds.
           </p>
           <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Inter'] text-gray-600 leading-relaxed">
             The timer will track how long you stay in respite mode. When you're
             ready, just move your cursor out of the box to end your break.
-          </p>
-          <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Inter'] text-gray-600 leading-relaxed font-medium">
-            Rest. Refocus. Return refreshed.
           </p>
         </div>
       </motion.div>
