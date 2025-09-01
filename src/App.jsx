@@ -1,4 +1,4 @@
-import Respite from './components/Respite'
+import Respite from './components/respite'
 
 function App() {
   return (
