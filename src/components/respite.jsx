@@ -170,7 +170,7 @@ const Respite = () => {
         <h1 className="text-[64px] font-medium font-['Chillax'] text-gray-800">
           Respite
         </h1>
-        <p className="text-[18px] font-normal tracking-wide uppercase opacity-70 mt-1 font-['Inter'] text-gray-600">
+        <p className="text-[18px] font-normal tracking-wide opacity-70 mt-1 font-['Inter'] text-gray-600">
           Give your cursor—and your mind—a break.
           Choose one of the five respite modes.
           Move your cursor inside the big box to start your break.
