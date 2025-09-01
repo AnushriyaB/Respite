@@ -1,9 +1,7 @@
-import Respite from './components/Respite'
+import Respite from "./components/respite";
 
 function App() {
-  return (
-    <Respite />
-  )
+  return <Respite />;
 }
 
-export default App
+export default App;

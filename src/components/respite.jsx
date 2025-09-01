@@ -1,6 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Moon, Coffee, Book, Music, Heart, VolumeX, Volume2 } from 'lucide-react';
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Moon,
+  Coffee,
+  Book,
+  Music,
+  Heart,
+  VolumeX,
+  Volume2,
+} from "lucide-react";
 import "../index.css";
 
 const Respite = () => {
@@ -22,7 +30,8 @@ const Respite = () => {
       shadowColor: "rgba(99, 102, 241, 0.5)",
       message: "Finding peace in stillness 😌",
       soundDescription: "Gentle white noise with soft chimes",
-      audioFile: "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/dream-space.mp3"
+      audioFile:
+        "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/dream-space.mp3",
     },
     {
       name: "Café Corner",
@@ -32,7 +41,8 @@ const Respite = () => {
       shadowColor: "rgba(251, 191, 36, 0.5)",
       message: "Coffee break time ☕",
       soundDescription: "Cozy café ambiance",
-      audioFile: "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/cafe-corner.mp3"
+      audioFile:
+        "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/cafe-corner.mp3",
     },
     {
       name: "Study Sanctuary",
@@ -42,7 +52,8 @@ const Respite = () => {
       shadowColor: "rgba(16, 185, 129, 0.5)",
       message: "Focus mode activated 📚",
       soundDescription: "Soft lo-fi beats",
-      audioFile: "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/study-sanctuary.mp3"
+      audioFile:
+        "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/study-sanctuary.mp3",
     },
     {
       name: "Melody Maven",
@@ -52,7 +63,8 @@ const Respite = () => {
       shadowColor: "rgba(192, 132, 252, 0.5)",
       message: "Vibing to the rhythm 🎵",
       soundDescription: "Calming piano melodies",
-      audioFile: "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/melody-maven.mp3"
+      audioFile:
+        "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/melody-maven.mp3",
     },
     {
       name: "Nature Nook",
@@ -62,14 +74,15 @@ const Respite = () => {
       shadowColor: "rgba(16, 185, 129, 0.5)",
       message: "Connected with nature 🌿",
       soundDescription: "Peaceful forest sounds",
-      audioFile: "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/nature-nook.mp3"
-    }
+      audioFile:
+        "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/nature-nook.mp3",
+    },
   ];
 
   const getFormattedTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
   useEffect(() => {
@@ -97,8 +110,8 @@ const Respite = () => {
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [isResting]);
 
   useEffect(() => {
@@ -109,7 +122,9 @@ const Respite = () => {
       const audioInstance = new Audio(restStyles[currentStyle].audioFile);
       audioInstance.loop = true;
       audioInstance.volume = 0.5;
-      audioInstance.play().catch((error) => console.log("Audio playback failed:", error));
+      audioInstance
+        .play()
+        .catch((error) => console.log("Audio playback failed:", error));
       audioRef.current = audioInstance;
     } else if (audioRef.current) {
       audioRef.current.pause();
@@ -129,26 +144,26 @@ const Respite = () => {
   return (
     <div
       className={`min-h-screen transition-colors duration-1000 relative overflow-hidden flex flex-col items-center justify-center ${restStyles[currentStyle].bgColor}`}
-      style={{ cursor: 'none' }}
+      style={{ cursor: "none" }}
     >
       {/* Anushriya Button */}
       <motion.a
-  href="https://anushriya.com"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="absolute top-4 right-4 px-4 py-2 rounded-full shadow-lg transition-all z-40"
-  onMouseEnter={() => setHoveredButton(true)}
-  onMouseLeave={() => setHoveredButton(false)}
-  style={{
-    backgroundColor: restStyles[currentStyle].shadowColor,
-    color: "#fff",
-    transform: hoveredButton ? 'scale(1.05)' : 'scale(1)',
-    transition: 'transform 0.4s ease-in-out, background-color 0.4s ease-in-out',
-  }}
->
-  {hoveredButton ? "Anushriya ↗️" : "Anushriya 👩🏻‍💻"}
-</motion.a>
-
+        href="https://anushriya.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute top-4 right-4 px-4 py-2 rounded-full shadow-lg transition-all z-40"
+        onMouseEnter={() => setHoveredButton(true)}
+        onMouseLeave={() => setHoveredButton(false)}
+        style={{
+          backgroundColor: restStyles[currentStyle].shadowColor,
+          color: "#fff",
+          transform: hoveredButton ? "scale(1.05)" : "scale(1)",
+          transition:
+            "transform 0.4s ease-in-out, background-color 0.4s ease-in-out",
+        }}
+      >
+        {hoveredButton ? "Anushriya ↗️" : "Anushriya 👩🏻‍💻"}
+      </motion.a>
 
       {/* Background Overlay */}
       {isZoneExpanded && (
@@ -156,7 +171,7 @@ const Respite = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.5 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: 'easeInOut' }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
           className="fixed inset-0 bg-black z-10"
         />
       )}
@@ -165,33 +180,45 @@ const Respite = () => {
       <motion.div
         className={`text-center mt-1 mb-14 z-${isZoneExpanded ? 0 : 20}`}
         animate={{ opacity: isZoneExpanded ? 0.5 : 1 }}
-        transition={{ duration: 0.5, ease: 'easeInOut' }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
       >
         <h1 className="text-[64px] font-medium font-['Chillax'] text-gray-800">
           Respite
         </h1>
-        <p className="text-[18px] font-normal tracking-wide uppercase opacity-70 mt-1 font-['Inter'] text-gray-600">
-          Give your cursor—and your mind—a break.
-          Choose one of the five respite modes.
-          Move your cursor inside the big box to start your break.
-          Turn on music if you’d like some calming sounds.
-          The timer will track how long you stay in respite mode.
-          When you’re ready, just move your cursor out of the box to end your break.
-          Rest. Refocus. Return refreshed.
-        </p>
+        <div className="max-w-4xl mx-auto px-4">
+          <p className="text-[18px] font-normal tracking-wide opacity-70 mt-1 font-['Inter'] text-gray-600 leading-relaxed">
+            Give your cursor—and your mind—a break. Choose one of the five
+            respite modes.
+          </p>
+          <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Inter'] text-gray-600 leading-relaxed">
+            Move your cursor inside the big box to start your break. Turn on
+            music if you'd like some calming sounds.
+          </p>
+          <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Inter'] text-gray-600 leading-relaxed">
+            The timer will track how long you stay in respite mode. When you're
+            ready, just move your cursor out of the box to end your break.
+          </p>
+          <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Inter'] text-gray-600 leading-relaxed font-medium">
+            Rest. Refocus. Return refreshed.
+          </p>
+        </div>
       </motion.div>
 
       {/* Theme Tabs */}
       <motion.div
-        className={`mt-2 mb-8 flex items-center space-x-6 z-${isZoneExpanded ? 0 : 20}`}
+        className={`mt-2 mb-8 flex items-center space-x-6 z-${
+          isZoneExpanded ? 0 : 20
+        }`}
         animate={{ opacity: isZoneExpanded ? 0.5 : 1 }}
-        transition={{ duration: 0.5, ease: 'easeInOut' }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
       >
         {restStyles.map((style, index) => (
           <button
             key={index}
             className={`p-3 rounded-full shadow-lg transition-all ${
-              currentStyle === index ? 'bg-gray-800 text-white' : 'bg-white text-gray-600'
+              currentStyle === index
+                ? "bg-gray-800 text-white"
+                : "bg-white text-gray-600"
             }`}
             onClick={() => setCurrentStyle(index)}
           >
@@ -204,17 +231,17 @@ const Respite = () => {
       <motion.div
         className={`relative flex flex-col items-center transition-all z-20 rounded-xl`}
         animate={{
-          width: isZoneExpanded ? '80vw' : '20rem',
-          height: isZoneExpanded ? '80vh' : '20rem'
+          width: isZoneExpanded ? "80vw" : "20rem",
+          height: isZoneExpanded ? "80vh" : "20rem",
         }}
         transition={{
           duration: 1.5,
-          ease: 'easeInOut'
+          ease: "easeInOut",
         }}
         style={{
-          transition: 'transform 1.8s ease-in-out',
-          transformOrigin: 'center',
-          boxShadow: `0 10px 30px ${restStyles[currentStyle].shadowColor}`
+          transition: "transform 1.8s ease-in-out",
+          transformOrigin: "center",
+          boxShadow: `0 10px 30px ${restStyles[currentStyle].shadowColor}`,
         }}
         onMouseEnter={() => setIsResting(true)}
         onMouseLeave={() => setIsResting(false)}
@@ -222,16 +249,16 @@ const Respite = () => {
         <motion.div
           className={`rounded-xl ${restStyles[currentStyle].bgColor} flex items-center justify-center shadow-lg relative overflow-hidden`}
           style={{
-            width: '100%',
-            height: '100%',
-            transformOrigin: 'center'
+            width: "100%",
+            height: "100%",
+            transformOrigin: "center",
           }}
         >
           <motion.div
             className="relative z-10"
             initial={{ opacity: 1 }}
             animate={isResting ? { opacity: 0.6 } : { opacity: 1 }}
-            transition={{ duration: 2, ease: 'easeInOut' }}
+            transition={{ duration: 2, ease: "easeInOut" }}
           >
             {restStyles[currentStyle].icon}
           </motion.div>
@@ -247,7 +274,7 @@ const Respite = () => {
               className="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 text-center"
               transition={{
                 duration: 0.5,
-                ease: 'easeInOut'
+                ease: "easeInOut",
               }}
             >
               <div className="text-[18px] font-normal tracking-wide uppercase opacity-70 mt-2 font-['Inter'] text-gray-60 whitespace-nowrap">
@@ -265,7 +292,7 @@ const Respite = () => {
       <motion.div
         className="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center space-x-4 z-30"
         animate={{ opacity: isZoneExpanded ? 0.5 : 1 }}
-        transition={{ duration: 0.5, ease: 'easeInOut' }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
       >
         <motion.button
           className="p-4 bg-white/80 backdrop-blur rounded-full shadow-lg hover:shadow-xl transition-all"
@@ -309,7 +336,7 @@ const Respite = () => {
           boxShadow: isResting
             ? `0 0 10px 4px ${restStyles[currentStyle].shadowColor}`
             : `0 0 30px 10px ${restStyles[currentStyle].shadowColor}`,
-          filter: isResting ? "none" : "saturate(0) brightness(2)"
+          filter: isResting ? "none" : "saturate(0) brightness(2)",
         }}
         animate={{
           scale: isResting ? [1, 6, 1] : [1, 1.1],
@@ -319,7 +346,7 @@ const Respite = () => {
         transition={{
           duration: isResting ? 8 : 1,
           ease: "easeInOut",
-          repeat: isResting ? Infinity : 0
+          repeat: isResting ? Infinity : 0,
         }}
       />
     </div>
