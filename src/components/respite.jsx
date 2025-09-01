@@ -133,7 +133,7 @@ const Respite = () => {
     >
       {/* Anushriya Button */}
       <motion.a
-  href="https://anushriyabhardwaj.com"
+  href="https://anushriya.com"
   target="_blank"
   rel="noopener noreferrer"
   className="absolute top-4 right-4 px-4 py-2 rounded-full shadow-lg transition-all z-40"
@@ -146,7 +146,7 @@ const Respite = () => {
     transition: 'transform 0.4s ease-in-out, background-color 0.4s ease-in-out',
   }}
 >
-  {hoveredButton ? "Know about Anushriya ↗️" : "Anushriya 👩🏻‍💻"}
+  {hoveredButton ? "Anushriya ↗️" : "Anushriya 👩🏻‍💻"}
 </motion.a>
 
 
@@ -171,7 +171,13 @@ const Respite = () => {
           Respite
         </h1>
         <p className="text-[18px] font-normal tracking-wide uppercase opacity-70 mt-1 font-['Inter'] text-gray-600">
-          A peaceful retreat for your cursor
+          Give your cursor—and your mind—a break.
+          Choose one of the five respite modes.
+          Move your cursor inside the big box to start your break.
+          Turn on music if you’d like some calming sounds.
+          The timer will track how long you stay in respite mode.
+          When you’re ready, just move your cursor out of the box to end your break.
+          Rest. Refocus. Return refreshed.
         </p>
       </motion.div>
 
