@@ -182,21 +182,21 @@ const Respite = () => {
         animate={{ opacity: isZoneExpanded ? 0.5 : 1 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
-        <h1 className="text-[64px] font-medium font-['Chillax'] text-gray-800">
+        <h1 className="text-[64px] font-medium font-['Quicksand'] text-gray-800">
           Respite
         </h1>
         <div className="max-w-4xl mx-auto px-4">
-          <p className="text-[18px] font-normal tracking-wide opacity-70 mt-1 font-['Poppins'] text-gray-600 leading-relaxed">
+          <p className="text-[18px] font-normal tracking-wide opacity-70 mt-1 font-['Quicksand'] text-gray-600 leading-relaxed">
             Give your cursor—and your mind—a break. Choose one of the five
             respite modes.
           </p>
-          <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Poppins'] text-gray-600 leading-relaxed">
+          <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Quicksand'] text-gray-600 leading-relaxed">
             Move your cursor inside the big box to start your break.
-            <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Poppins'] text-gray-600 leading-relaxed">
+            <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Quicksand'] text-gray-600 leading-relaxed">
               Turn on music if you'd like some calming sounds.
             </p>
           </p>
-          <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Poppins'] text-gray-600 leading-relaxed">
+          <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Quicksand'] text-gray-600 leading-relaxed">
             The timer will track how long you stay in respite mode. When you're
             ready, just move your cursor out of the box to end your break.
           </p>
@@ -276,10 +276,10 @@ const Respite = () => {
                 ease: "easeInOut",
               }}
             >
-              <div className="text-[18px] font-normal tracking-wide uppercase opacity-70 mt-2 font-['Inter'] text-gray-60 whitespace-nowrap">
+              <div className="text-[18px] font-normal tracking-wide uppercase opacity-70 mt-2 font-['Quicksand'] text-gray-60 whitespace-nowrap">
                 {getFormattedTime(restTime)}
               </div>
-              <div className="text-[16px] font-normal tracking-wide uppercase opacity-70 mt-2 font-['Inter'] text-gray-600 whitespace-nowrap">
+              <div className="text-[16px] font-normal tracking-wide uppercase opacity-70 mt-2 font-['Quicksand'] text-gray-600 whitespace-nowrap">
                 {restStyles[currentStyle].message}
               </div>
             </motion.div>
