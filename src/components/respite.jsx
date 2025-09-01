@@ -182,25 +182,14 @@ const Respite = () => {
         animate={{ opacity: isZoneExpanded ? 0.5 : 1 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
-        <h1 className="text-[64px] font-medium font-['Chillax'] text-gray-800">
-          Respite
-        </h1>
-        <div className="max-w-4xl mx-auto px-4">
-          <p className="text-[18px] font-normal tracking-wide opacity-70 mt-1 font-['Inter'] text-gray-600 leading-relaxed">
-            Give your cursor—and your mind—a break. Choose one of the five
-            respite modes.
-          </p>
-          <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Inter'] text-gray-600 leading-relaxed">
-            Move your cursor inside the big box to start your break.
-          </p>
-           <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Inter'] text-gray-600 leading-relaxed">
-            Turn on music if you'd like some calming sounds.
-          </p>
-          <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Inter'] text-gray-600 leading-relaxed">
-            The timer will track how long you stay in respite mode. When you're
-            ready, just move your cursor out of the box to end your break.
-          </p>
-        </div>
+        <h1 style="font-size:2.2rem; font-weight:700; margin-bottom:1rem;">Take a Mindful Break</h1>
+<ul style="font-size:1rem; line-height:1.7; margin:0 0 1.5rem 1.5rem;">
+  <li><strong>Move your cursor</strong> into the big box to begin.</li>
+  <li><strong>Turn on music</strong> for a calming background.</li>
+  <li>The <strong>timer</strong> keeps track of your break.</li>
+  <li>Ready to return? Just <strong>move your cursor out</strong>.</li>
+</ul>
+
       </motion.div>
 
       {/* Theme Tabs */}
