@@ -8,6 +8,18 @@ import {
   Heart,
   VolumeX,
   Volume2,
+  Star,
+  Sparkles,
+  Zap,
+  Lightbulb,
+  Target,
+  Brain,
+  TreePine,
+  Leaf,
+  Globe,
+  Waves,
+  Sun,
+  Cloud,
 } from "lucide-react";
 import "../index.css";
 
@@ -19,7 +31,12 @@ const Respite = () => {
   const [restTime, setRestTime] = useState(0);
   const [isZoneExpanded, setIsZoneExpanded] = useState(false);
   const [hoveredButton, setHoveredButton] = useState(false);
+  const [messageIndex, setMessageIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const audioRef = useRef(null);
+  const charIndexRef = useRef(0);
 
   const restStyles = [
     {
@@ -28,7 +45,20 @@ const Respite = () => {
       bgColor: "bg-indigo-100",
       activeColor: "bg-indigo-100",
       shadowColor: "rgba(99, 102, 241, 0.5)",
-      message: "Finding peace in stillness 😌",
+      messages: [
+        "you are not broken you are breaking through",
+        "i am learning to love the sound of my feet walking away from things not meant for me",
+        "you must want to spend the rest of your life with yourself first",
+        "still i rise like dust i rise",
+        "i am a woman phenomenally phenomenal woman that's me",
+        "you may write me down in history with your bitter twisted lies",
+        "you may trod me in the very dirt but still like dust i'll rise",
+        "i am not afraid of storms for i am learning how to sail my ship",
+        "there is no greater agony than bearing an untold story inside you",
+        "nothing can dim the light that shines from within",
+        "you are your best thing",
+        "i come as one but i stand as ten thousand",
+      ],
       soundDescription: "Gentle white noise with soft chimes",
       audioFile:
         "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/dream-space.mp3",
@@ -39,7 +69,20 @@ const Respite = () => {
       bgColor: "bg-amber-100",
       activeColor: "bg-amber-100",
       shadowColor: "rgba(251, 191, 36, 0.5)",
-      message: "Coffee break time ☕",
+      messages: [
+        "Coffee is the second most traded commodity in the world after oil",
+        "Finland consumes the most coffee per capita in the world",
+        "The word coffee comes from the Arabic word qahwah meaning wine",
+        "Coffee beans are actually seeds from the coffee cherry fruit",
+        "The first coffeehouse opened in Constantinople in 1475",
+        "Coffee was discovered by an Ethiopian goat herder named Kaldi",
+        "Brazil produces about 40% of the world's coffee supply",
+        "Coffee can reduce the risk of type 2 diabetes by up to 50%",
+        "The most expensive coffee in the world is Kopi Luwak from Indonesia",
+        "Coffee contains over 1000 chemical compounds",
+        "The first webcam was created to monitor a coffee pot at Cambridge University",
+        "Coffee was banned in Mecca in 1511 for being a drug",
+      ],
       soundDescription: "Cozy café ambiance",
       audioFile:
         "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/cafe-corner.mp3",
@@ -50,7 +93,7 @@ const Respite = () => {
       bgColor: "bg-green-100",
       activeColor: "bg-green-100",
       shadowColor: "rgba(16, 185, 129, 0.5)",
-      message: "Focus mode activated 📚",
+      messages: ["You can do it, keep your focus"],
       soundDescription: "Soft lo-fi beats",
       audioFile:
         "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/study-sanctuary.mp3",
@@ -61,7 +104,20 @@ const Respite = () => {
       bgColor: "bg-purple-100",
       activeColor: "bg-purple-100",
       shadowColor: "rgba(192, 132, 252, 0.5)",
-      message: "Vibing to the rhythm 🎵",
+      messages: [
+        "Music activates more parts of the brain than any other human activity",
+        "The oldest known musical instrument is a 40,000-year-old bone flute",
+        "Listening to music can reduce anxiety by up to 65%",
+        "Mozart's music can temporarily boost spatial reasoning abilities",
+        "The Beatles' song Yesterday has been covered over 2,200 times",
+        "Music therapy can help stroke patients recover speech",
+        "The human brain can recognize a song in just 0.1 seconds",
+        "Playing music increases the brain's gray matter volume",
+        "The world's longest concert lasted 639 years and is still ongoing",
+        "Music can synchronize heartbeats between people",
+        "The first music streaming service was launched in 1994",
+        "Classical music can help plants grow faster",
+      ],
       soundDescription: "Calming piano melodies",
       audioFile:
         "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/melody-maven.mp3",
@@ -72,7 +128,23 @@ const Respite = () => {
       bgColor: "bg-emerald-100",
       activeColor: "bg-emerald-100",
       shadowColor: "rgba(16, 185, 129, 0.5)",
-      message: "Connected with nature 🌿",
+      messages: [
+        "Trees can live for thousands of years",
+        "The Amazon produces 20% of Earth's oxygen",
+        "A single tree can absorb 48 pounds of CO2 yearly",
+        "Forests are home to 80% of terrestrial biodiversity",
+        "Nature is the original internet - everything is connected",
+        "Yellowstone National Park was the first national park in the world",
+        "The Great Barrier Reef is visible from space",
+        "Yosemite's Half Dome rises 4,737 feet above the valley floor",
+        "Grand Canyon is 277 miles long and up to 18 miles wide",
+        "Banff National Park in Canada spans 2,564 square miles",
+        "The Serengeti hosts the world's largest mammal migration",
+        "Mount Everest grows about 4mm taller each year",
+        "The Amazon rainforest covers 2.1 million square miles",
+        "Antarctica is the driest continent on Earth",
+        "The Pacific Ocean is larger than all land masses combined",
+      ],
       soundDescription: "Peaceful forest sounds",
       audioFile:
         "https://github.com/AnushriyaB/Respite/raw/refs/heads/main/public/audio/nature-nook.mp3",
@@ -84,6 +156,93 @@ const Respite = () => {
     const seconds = time % 60;
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
+
+  const getCurrentMessage = () => {
+    const currentMessages = restStyles[currentStyle].messages;
+    return currentMessages[messageIndex % currentMessages.length];
+  };
+
+  const renderMessageWithIcon = (message) => {
+    // Get the appropriate icon for the current mode
+    const getModeIcon = () => {
+      const currentMode = restStyles[currentStyle];
+      switch (currentMode.name) {
+        case "Dream Space":
+          return <Moon className="w-4 h-4 inline mr-1" />;
+        case "Café Corner":
+          return <Coffee className="w-4 h-4 inline mr-1" />;
+        case "Study Sanctuary":
+          return <Book className="w-4 h-4 inline mr-1" />;
+        case "Melody Maven":
+          return <Music className="w-4 h-4 inline mr-1" />;
+        case "Nature Nook":
+          return <Heart className="w-4 h-4 inline mr-1" />;
+        default:
+          return null;
+      }
+    };
+
+    // Check if this is a poem (Dream Space messages)
+    const isPoem = restStyles[currentStyle].name === "Dream Space";
+
+    return (
+      <span className={isPoem ? "italic" : ""}>
+        {getModeIcon()}
+        {message}
+      </span>
+    );
+  };
+
+  // Typewriter effect
+  useEffect(() => {
+    if (!isZoneExpanded) {
+      setDisplayedText("");
+      setIsTyping(false);
+      setIsDeleting(false);
+      charIndexRef.current = 0;
+      return;
+    }
+
+    const currentMessage = getCurrentMessage();
+    charIndexRef.current = 0;
+    setIsTyping(true);
+    setIsDeleting(false);
+
+    const typeNextChar = () => {
+      if (charIndexRef.current < currentMessage.length) {
+        setDisplayedText(currentMessage.slice(0, charIndexRef.current + 1));
+        charIndexRef.current++;
+        setTimeout(typeNextChar, 50); // Typing speed
+      } else {
+        setIsTyping(false);
+        // Wait before starting to delete
+        setTimeout(() => {
+          setIsDeleting(true);
+        }, 2000); // Wait 2 seconds before deleting
+      }
+    };
+
+    typeNextChar();
+  }, [isZoneExpanded, messageIndex, currentStyle]);
+
+  // Separate effect for deleting
+  useEffect(() => {
+    if (!isDeleting || !isZoneExpanded) return;
+
+    const deleteNextChar = () => {
+      setDisplayedText((prev) => {
+        if (prev.length <= 1) {
+          setIsDeleting(false);
+          setMessageIndex((prevIndex) => prevIndex + 1);
+          return "";
+        }
+        return prev.slice(0, -1);
+      });
+    };
+
+    const timeout = setTimeout(deleteNextChar, 30); // Deleting speed
+    return () => clearTimeout(timeout);
+  }, [isDeleting, displayedText, isZoneExpanded]);
 
   useEffect(() => {
     let timer;
@@ -99,9 +258,21 @@ const Respite = () => {
     } else {
       setRestTime(0);
       setIsZoneExpanded(false);
+      setMessageIndex(0);
+      setDisplayedText("");
+      setIsTyping(false);
+      setIsDeleting(false);
     }
     return () => clearInterval(timer);
   }, [isResting]);
+
+  // Reset message index when style changes
+  useEffect(() => {
+    setMessageIndex(0);
+    setDisplayedText("");
+    setIsTyping(false);
+    setIsDeleting(false);
+  }, [currentStyle]);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -162,7 +333,7 @@ const Respite = () => {
             "transform 0.4s ease-in-out, background-color 0.4s ease-in-out",
         }}
       >
-        {hoveredButton ? "Anushriya ↗️" : "Anushriya 👩🏻‍💻"}
+        {hoveredButton ? "Anushriya ↗" : "Anushriya"}
       </motion.a>
 
       {/* Background Overlay */}
@@ -176,116 +347,107 @@ const Respite = () => {
         />
       )}
 
-      {/* Header */}
+      {/* Header - Top Left */}
       <motion.div
-        className={`text-center mt-1 mb-14 z-${isZoneExpanded ? 0 : 20}`}
+        className={`fixed top-6 left-6 z-${isZoneExpanded ? 0 : 20}`}
         animate={{ opacity: isZoneExpanded ? 0.5 : 1 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
-        <h1 className="text-[64px] font-medium font-['Quicksand'] text-gray-800">
+        <h1 className="text-[32px] font-medium font-sans text-gray-800">
           Respite
         </h1>
-        <div className="max-w-4xl mx-auto px-4">
-          <p className="text-[18px] font-normal tracking-wide opacity-70 mt-1 font-['Quicksand'] text-gray-600 leading-relaxed">
-            Give your cursor—and your mind—a break. Choose one of the five
-            respite modes.
-          </p>
-          <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Quicksand'] text-gray-600 leading-relaxed">
-            Move your cursor inside the big box to start your break.
-            <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Quicksand'] text-gray-600 leading-relaxed">
-              Turn on music if you'd like some calming sounds.
-            </p>
-          </p>
-          <p className="text-[18px] font-normal tracking-wide opacity-70 mt-3 font-['Quicksand'] text-gray-600 leading-relaxed">
-            The timer will track how long you stay in respite mode. When you're
-            ready, just move your cursor out of the box to end your break.
-          </p>
-        </div>
+        <p className="text-[14px] font-normal tracking-wide opacity-70 mt-1 font-sans text-gray-600 leading-relaxed">
+          Move your cursor into the box to start your break.
+        </p>
       </motion.div>
 
-      {/* Theme Tabs */}
-      <motion.div
-        className={`mt-2 mb-8 flex items-center space-x-6 z-${
-          isZoneExpanded ? 0 : 20
-        }`}
-        animate={{ opacity: isZoneExpanded ? 0.5 : 1 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-      >
-        {restStyles.map((style, index) => (
-          <button
-            key={index}
-            className={`p-3 rounded-full shadow-lg transition-all ${
-              currentStyle === index
-                ? "bg-gray-800 text-white"
-                : "bg-white text-gray-600"
-            }`}
-            onClick={() => setCurrentStyle(index)}
-          >
-            {style.icon}
-          </button>
-        ))}
-      </motion.div>
-
-      {/* Rest Area */}
-      <motion.div
-        className={`relative flex flex-col items-center transition-all z-20 rounded-xl`}
-        animate={{
-          width: isZoneExpanded ? "80vw" : "20rem",
-          height: isZoneExpanded ? "80vh" : "20rem",
-        }}
-        transition={{
-          duration: 1.5,
-          ease: "easeInOut",
-        }}
-        style={{
-          transition: "transform 1.8s ease-in-out",
-          transformOrigin: "center",
-          boxShadow: `0 10px 30px ${restStyles[currentStyle].shadowColor}`,
-        }}
-        onMouseEnter={() => setIsResting(true)}
-        onMouseLeave={() => setIsResting(false)}
-      >
+      {/* Main Content Container - Centered */}
+      <div className="flex flex-col items-center justify-center min-h-screen pt-16 pb-20">
+        {/* Theme Tabs */}
         <motion.div
-          className={`rounded-xl ${restStyles[currentStyle].bgColor} flex items-center justify-center shadow-lg relative overflow-hidden`}
-          style={{
-            width: "100%",
-            height: "100%",
-            transformOrigin: "center",
-          }}
+          className={`mb-12 flex items-center space-x-6 z-${
+            isZoneExpanded ? 0 : 20
+          }`}
+          animate={{ opacity: isZoneExpanded ? 0.5 : 1 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
         >
-          <motion.div
-            className="relative z-10"
-            initial={{ opacity: 1 }}
-            animate={isResting ? { opacity: 0.6 } : { opacity: 1 }}
-            transition={{ duration: 2, ease: "easeInOut" }}
-          >
-            {restStyles[currentStyle].icon}
-          </motion.div>
+          {restStyles.map((style, index) => (
+            <button
+              key={index}
+              className={`p-3 rounded-full shadow-lg transition-all ${
+                currentStyle === index
+                  ? "bg-gray-800 text-white"
+                  : "bg-white text-gray-600"
+              }`}
+              onClick={() => setCurrentStyle(index)}
+            >
+              {style.icon}
+            </button>
+          ))}
         </motion.div>
 
-        {/* Timer and Message */}
-        <AnimatePresence>
-          {isResting && (
+        {/* Rest Area */}
+        <motion.div
+          className={`relative flex flex-col items-center transition-all z-20 rounded-xl`}
+          animate={{
+            width: isZoneExpanded ? "80vw" : "20rem",
+            height: isZoneExpanded ? "80vh" : "20rem",
+          }}
+          transition={{
+            duration: 1.5,
+            ease: "easeInOut",
+          }}
+          style={{
+            transition: "transform 1.8s ease-in-out",
+            transformOrigin: "center",
+            boxShadow: `0 10px 30px ${restStyles[currentStyle].shadowColor}`,
+          }}
+          onMouseEnter={() => setIsResting(true)}
+          onMouseLeave={() => setIsResting(false)}
+        >
+          <motion.div
+            className={`rounded-xl ${restStyles[currentStyle].bgColor} flex items-center justify-center shadow-lg relative overflow-hidden`}
+            style={{
+              width: "100%",
+              height: "100%",
+              transformOrigin: "center",
+            }}
+          >
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 text-center"
-              transition={{
-                duration: 0.5,
-                ease: "easeInOut",
-              }}
+              className="relative z-10"
+              initial={{ opacity: 1 }}
+              animate={isResting ? { opacity: 0.6 } : { opacity: 1 }}
+              transition={{ duration: 2, ease: "easeInOut" }}
             >
-              <div className="text-[18px] font-normal tracking-wide uppercase opacity-70 mt-2 font-['Quicksand'] text-gray-60 whitespace-nowrap">
-                {getFormattedTime(restTime)}
-              </div>
-              <div className="text-[16px] font-normal tracking-wide uppercase opacity-70 mt-2 font-['Quicksand'] text-gray-600 whitespace-nowrap">
-                {restStyles[currentStyle].message}
-              </div>
+              {restStyles[currentStyle].icon}
             </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
+          </motion.div>
+
+          {/* Timer and Message */}
+          <AnimatePresence>
+            {isResting && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 text-center"
+                transition={{
+                  duration: 0.5,
+                  ease: "easeInOut",
+                }}
+              >
+                <div className="text-[18px] font-normal tracking-wide uppercase opacity-70 mt-2 font-sans text-gray-60 whitespace-nowrap">
+                  {getFormattedTime(restTime)}
+                </div>
+                <div className="text-[16px] font-normal tracking-wide opacity-70 mt-2 font-sans text-gray-600 whitespace-nowrap flex items-center">
+                  {displayedText && renderMessageWithIcon(displayedText)}
+                  <span className="animate-pulse ml-1">|</span>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </div>
 
       {/* Sound Control */}
       <motion.div

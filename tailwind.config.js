@@ -4,7 +4,16 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Quicksand", "sans-serif"],
+        sans: [
+          "Instrument Sans",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          "Arial",
+          "sans-serif",
+        ],
       },
     },
   },
