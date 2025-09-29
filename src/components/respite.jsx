@@ -30,6 +30,7 @@ const Respite = () => {
   const [restTime, setRestTime] = useState(0);
   const [isZoneExpanded, setIsZoneExpanded] = useState(false);
   const [hoveredButton, setHoveredButton] = useState(false);
+  const [isHoveringInteractive, setIsHoveringInteractive] = useState(false);
   const [messageIndex, setMessageIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -326,25 +327,6 @@ const Respite = () => {
       className={`min-h-screen transition-colors duration-1000 relative overflow-hidden flex flex-col items-center justify-center ${restStyles[currentStyle].bgColor}`}
       style={{ cursor: "none" }}
     >
-      {/* Anushriya Button */}
-      <motion.a
-        href="https://anushriya.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="absolute top-4 right-4 px-4 py-2 rounded-full shadow-lg transition-all z-40"
-        onMouseEnter={() => setHoveredButton(true)}
-        onMouseLeave={() => setHoveredButton(false)}
-        style={{
-          backgroundColor: restStyles[currentStyle].shadowColor,
-          color: "#fff",
-          transform: hoveredButton ? "scale(1.05)" : "scale(1)",
-          transition:
-            "transform 0.4s ease-in-out, background-color 0.4s ease-in-out",
-        }}
-      >
-        {hoveredButton ? "Anushriya ↗" : "Anushriya"}
-      </motion.a>
-
       {/* Background Overlay */}
       {isZoneExpanded && (
         <motion.div
@@ -362,12 +344,36 @@ const Respite = () => {
         animate={{ opacity: isZoneExpanded ? 0.5 : 1 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
-        <h1 className="text-[32px] font-medium font-sans text-gray-800">
+        <h1 className="text-[40px] font-semibold font-sans text-gray-800">
           Respite
         </h1>
         <p className="text-[14px] font-normal tracking-wide opacity-70 mt-1 font-sans text-gray-600 leading-relaxed">
           Move your cursor into the box to start your break.
         </p>
+        <div className="flex items-center gap-2 mt-1">
+          <span className="text-sm text-gray-500">Creator:</span>
+          <motion.a
+            href="https://anushriya.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-medium transition-all"
+            onMouseEnter={() => {
+              setHoveredButton(true);
+              setIsHoveringInteractive(true);
+            }}
+            onMouseLeave={() => {
+              setHoveredButton(false);
+              setIsHoveringInteractive(false);
+            }}
+            style={{
+              color: restStyles[currentStyle].shadowColor.replace("0.5", "0.8"),
+              transform: hoveredButton ? "scale(1.05)" : "scale(1)",
+              transition: "transform 0.4s ease-in-out, color 0.4s ease-in-out",
+            }}
+          >
+            {hoveredButton ? "Anushriya ↗" : "Anushriya"}
+          </motion.a>
+        </div>
       </motion.div>
 
       {/* Main Content Container - Centered */}
@@ -389,6 +395,8 @@ const Respite = () => {
                   : "bg-white text-gray-600"
               }`}
               onClick={() => setCurrentStyle(index)}
+              onMouseEnter={() => setIsHoveringInteractive(true)}
+              onMouseLeave={() => setIsHoveringInteractive(false)}
             >
               {style.icon}
             </button>
@@ -544,7 +552,7 @@ const Respite = () => {
         }}
         animate={{
           scale: isResting ? [1, 6, 1] : [1, 1.1],
-          opacity: isResting ? [1, 0.8] : 1,
+          opacity: isHoveringInteractive ? 0.2 : isResting ? [1, 0.8] : 1,
           backgroundPosition: isResting ? "50% 50%" : ["0% 0%", "100% 100%"],
         }}
         transition={{
