@@ -5,7 +5,6 @@ import {
   Coffee,
   Book,
   Music,
-  Heart,
   VolumeX,
   Volume2,
   Star,
@@ -34,7 +33,6 @@ const Respite = () => {
   const [messageIndex, setMessageIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
   const audioRef = useRef(null);
   const charIndexRef = useRef(0);
 
@@ -45,6 +43,8 @@ const Respite = () => {
       bgColor: "bg-indigo-100",
       activeColor: "bg-indigo-100",
       shadowColor: "rgba(99, 102, 241, 0.5)",
+      cursorGradient:
+        "radial-gradient(circle at 30% 20%, rgba(139, 92, 246, 0.8) 0%, rgba(99, 102, 241, 0.6) 25%, rgba(79, 70, 229, 0.4) 50%, rgba(67, 56, 202, 0.2) 75%, rgba(55, 48, 163, 0.1) 100%)",
       messages: [
         "you are not broken you are breaking through",
         "i am learning to love the sound of my feet walking away from things not meant for me",
@@ -69,6 +69,8 @@ const Respite = () => {
       bgColor: "bg-amber-100",
       activeColor: "bg-amber-100",
       shadowColor: "rgba(251, 191, 36, 0.5)",
+      cursorGradient:
+        "radial-gradient(circle at 70% 30%, rgba(251, 191, 36, 0.8) 0%, rgba(245, 158, 11, 0.6) 25%, rgba(217, 119, 6, 0.4) 50%, rgba(180, 83, 9, 0.2) 75%, rgba(146, 64, 14, 0.1) 100%)",
       messages: [
         "Coffee is the second most traded commodity in the world after oil",
         "Finland consumes the most coffee per capita in the world",
@@ -90,9 +92,11 @@ const Respite = () => {
     {
       name: "Study Sanctuary",
       icon: <Book className="w-6 h-6" />,
-      bgColor: "bg-green-100",
-      activeColor: "bg-green-100",
-      shadowColor: "rgba(16, 185, 129, 0.5)",
+      bgColor: "bg-sky-100",
+      activeColor: "bg-sky-100",
+      shadowColor: "rgba(56, 189, 248, 0.5)",
+      cursorGradient:
+        "radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.8) 0%, rgba(14, 165, 233, 0.6) 25%, rgba(2, 132, 199, 0.4) 50%, rgba(3, 105, 161, 0.2) 75%, rgba(7, 89, 133, 0.1) 100%)",
       messages: ["You can do it, keep your focus"],
       soundDescription: "Soft lo-fi beats",
       audioFile:
@@ -104,6 +108,8 @@ const Respite = () => {
       bgColor: "bg-purple-100",
       activeColor: "bg-purple-100",
       shadowColor: "rgba(192, 132, 252, 0.5)",
+      cursorGradient:
+        "radial-gradient(circle at 40% 60%, rgba(192, 132, 252, 0.8) 0%, rgba(168, 85, 247, 0.6) 25%, rgba(147, 51, 234, 0.4) 50%, rgba(126, 34, 206, 0.2) 75%, rgba(109, 40, 217, 0.1) 100%)",
       messages: [
         "Music activates more parts of the brain than any other human activity",
         "The oldest known musical instrument is a 40,000-year-old bone flute",
@@ -124,10 +130,12 @@ const Respite = () => {
     },
     {
       name: "Nature Nook",
-      icon: <Heart className="w-6 h-6" />,
+      icon: <TreePine className="w-6 h-6" />,
       bgColor: "bg-emerald-100",
       activeColor: "bg-emerald-100",
       shadowColor: "rgba(16, 185, 129, 0.5)",
+      cursorGradient:
+        "radial-gradient(circle at 60% 40%, rgba(16, 185, 129, 0.8) 0%, rgba(5, 150, 105, 0.6) 25%, rgba(4, 120, 87, 0.4) 50%, rgba(6, 95, 70, 0.2) 75%, rgba(6, 78, 59, 0.1) 100%)",
       messages: [
         "Trees can live for thousands of years",
         "The Amazon produces 20% of Earth's oxygen",
@@ -176,7 +184,7 @@ const Respite = () => {
         case "Melody Maven":
           return <Music className="w-4 h-4 inline mr-1" />;
         case "Nature Nook":
-          return <Heart className="w-4 h-4 inline mr-1" />;
+          return <TreePine className="w-4 h-4 inline mr-1" />;
         default:
           return null;
       }
@@ -198,15 +206,22 @@ const Respite = () => {
     if (!isZoneExpanded) {
       setDisplayedText("");
       setIsTyping(false);
-      setIsDeleting(false);
       charIndexRef.current = 0;
       return;
     }
 
     const currentMessage = getCurrentMessage();
+
+    // For Study Sanctuary, show text immediately without typing effect
+    if (restStyles[currentStyle].name === "Study Sanctuary") {
+      setDisplayedText(currentMessage);
+      setIsTyping(false);
+      return;
+    }
+
+    // For other modes, use the typing effect
     charIndexRef.current = 0;
     setIsTyping(true);
-    setIsDeleting(false);
 
     const typeNextChar = () => {
       if (charIndexRef.current < currentMessage.length) {
@@ -215,41 +230,25 @@ const Respite = () => {
         setTimeout(typeNextChar, 50); // Typing speed
       } else {
         setIsTyping(false);
-        // Wait before starting to delete
+        // Wait 5 seconds then move to next message
         setTimeout(() => {
-          setIsDeleting(true);
-        }, 2000); // Wait 2 seconds before deleting
+          setMessageIndex((prevIndex) => prevIndex + 1);
+          setDisplayedText("");
+        }, 5000); // Wait 5 seconds before next message
       }
     };
 
     typeNextChar();
   }, [isZoneExpanded, messageIndex, currentStyle]);
 
-  // Separate effect for deleting
-  useEffect(() => {
-    if (!isDeleting || !isZoneExpanded) return;
-
-    const deleteNextChar = () => {
-      setDisplayedText((prev) => {
-        if (prev.length <= 1) {
-          setIsDeleting(false);
-          setMessageIndex((prevIndex) => prevIndex + 1);
-          return "";
-        }
-        return prev.slice(0, -1);
-      });
-    };
-
-    const timeout = setTimeout(deleteNextChar, 30); // Deleting speed
-    return () => clearTimeout(timeout);
-  }, [isDeleting, displayedText, isZoneExpanded]);
+  // Deletion effect removed - now using direct message cycling
 
   useEffect(() => {
     let timer;
     if (isResting) {
       timer = setInterval(() => {
         setRestTime((prev) => {
-          if (prev + 1 >= 5) {
+          if (prev + 1 >= 2) {
             setIsZoneExpanded(true);
           }
           return prev + 1;
@@ -261,7 +260,6 @@ const Respite = () => {
       setMessageIndex(0);
       setDisplayedText("");
       setIsTyping(false);
-      setIsDeleting(false);
     }
     return () => clearInterval(timer);
   }, [isResting]);
@@ -271,18 +269,29 @@ const Respite = () => {
     setMessageIndex(0);
     setDisplayedText("");
     setIsTyping(false);
-    setIsDeleting(false);
   }, [currentStyle]);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      if (!isResting) {
+      if (!isZoneExpanded) {
         setMousePosition({ x: e.clientX, y: e.clientY });
       }
     };
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [isZoneExpanded]);
+
+  // Keyboard event listener for Escape key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && isResting) {
+        setIsResting(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isResting]);
 
   useEffect(() => {
@@ -394,11 +403,13 @@ const Respite = () => {
             height: isZoneExpanded ? "80vh" : "20rem",
           }}
           transition={{
-            duration: 1.5,
-            ease: "easeInOut",
+            duration: isResting ? 0.8 : 0.3,
+            ease: isResting ? "easeInOut" : "easeOut",
           }}
           style={{
-            transition: "transform 1.8s ease-in-out",
+            transition: isResting
+              ? "transform 0.8s ease-in-out"
+              : "transform 0.3s ease-out",
             transformOrigin: "center",
             boxShadow: `0 10px 30px ${restStyles[currentStyle].shadowColor}`,
           }}
@@ -417,7 +428,10 @@ const Respite = () => {
               className="relative z-10"
               initial={{ opacity: 1 }}
               animate={isResting ? { opacity: 0.6 } : { opacity: 1 }}
-              transition={{ duration: 2, ease: "easeInOut" }}
+              transition={{
+                duration: isResting ? 2 : 0.2,
+                ease: isResting ? "easeInOut" : "easeOut",
+              }}
             >
               {restStyles[currentStyle].icon}
             </motion.div>
@@ -425,15 +439,15 @@ const Respite = () => {
 
           {/* Timer and Message */}
           <AnimatePresence>
-            {isResting && (
+            {isZoneExpanded && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 text-center"
                 transition={{
-                  duration: 0.5,
-                  ease: "easeInOut",
+                  duration: isResting ? 0.5 : 0.1,
+                  ease: isResting ? "easeInOut" : "easeOut",
                 }}
               >
                 <div className="text-[18px] font-normal tracking-wide uppercase opacity-70 mt-2 font-sans text-gray-60 whitespace-nowrap">
@@ -443,6 +457,35 @@ const Respite = () => {
                   {displayedText && renderMessageWithIcon(displayedText)}
                   <span className="animate-pulse ml-1">|</span>
                 </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Exit Instructions Text */}
+          <AnimatePresence>
+            {isZoneExpanded && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute top-4 left-4 z-30"
+                transition={{
+                  duration: isZoneExpanded ? 0.3 : 0.1,
+                  delay: isZoneExpanded ? 0.5 : 0,
+                  ease: "easeOut",
+                }}
+              >
+                <p
+                  className="text-xs font-medium tracking-wide"
+                  style={{
+                    color: restStyles[currentStyle].shadowColor.replace(
+                      "0.5",
+                      "0.8"
+                    ),
+                  }}
+                >
+                  Move cursor or press Esc to exit
+                </p>
               </motion.div>
             )}
           </AnimatePresence>
@@ -491,7 +534,7 @@ const Respite = () => {
           top: mousePosition.y - 24,
           left: mousePosition.x - 24,
           background: isResting
-            ? `radial-gradient(circle, ${restStyles[currentStyle].shadowColor} 100%, ${restStyles[currentStyle].bgColor} 0%)`
+            ? restStyles[currentStyle].cursorGradient
             : `linear-gradient(135deg, #ff6ec4, #7873f5, #42e695)`,
           backgroundSize: isResting ? "100% 100%" : "200% 200%",
           boxShadow: isResting
@@ -505,8 +548,8 @@ const Respite = () => {
           backgroundPosition: isResting ? "50% 50%" : ["0% 0%", "100% 100%"],
         }}
         transition={{
-          duration: isResting ? 8 : 1,
-          ease: "easeInOut",
+          duration: isResting ? 8 : 0.2,
+          ease: isResting ? "easeInOut" : "easeOut",
           repeat: isResting ? Infinity : 0,
         }}
       />
